@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { FaBug } from "react-icons/fa";
+import { ModeToggle } from "../layout/dark-mode";
 const NavHeader = () => {
   const pathname = usePathname();
   console.log(pathname);
@@ -25,14 +26,16 @@ const NavHeader = () => {
             <li
               key={link.paths}
               className={classNames({
-                "text-zinc-900": link.paths === pathname,
-                "text-zinc-400": link.paths !== pathname,
-                "hover:text-zinc-900 transition-colors": true,
+                "text-zinc-900 dark:text-zinc-50": link.paths === pathname,
+                "text-zinc-400 ": link.paths !== pathname,
+                "hover:text-zinc-900 dark:hover:text-zinc-300 transition-colors":
+                  true,
               })}
             >
               <Link href={link.paths}>{link.label}</Link>
             </li>
           ))}
+          <ModeToggle />
         </ul>
       </div>
     </nav>
