@@ -7,7 +7,6 @@ import { FaBug } from "react-icons/fa";
 import { ModeToggle } from "../layout/dark-mode";
 const NavHeader = () => {
   const pathname = usePathname();
-  console.log(pathname);
   const links = [
     { label: "Dashboard", paths: "/dashboard" },
     { label: "Issues", paths: "/issues" },
