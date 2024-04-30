@@ -11,6 +11,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ShowBadge } from "@/components/ui/badge";
+import Badge from "@/components/layout/badge";
 
 const Issues = async () => {
   const issues = await prisma.issue.findMany();
@@ -34,7 +36,9 @@ const Issues = async () => {
               {issues.map((issue) => (
                 <TableRow key={issue.id}>
                   <TableCell>{issue.title}</TableCell>
-                  <TableCell>{issue.status}</TableCell>
+                  <TableCell>
+                    <Badge status={issue.status} />
+                  </TableCell>
                   <TableCell>{issue.created_at.toDateString()}</TableCell>
                 </TableRow>
               ))}
