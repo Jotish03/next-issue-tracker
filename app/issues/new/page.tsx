@@ -13,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { issueSchema } from "@/components/layout/validation-schema";
 import { z } from "zod";
 import { Label } from "@/components/ui/label";
+import ErrorMessage from "@/components/layout/error-message";
 
 type IssueForm = z.infer<typeof issueSchema>;
 
@@ -40,14 +41,12 @@ const NewIssue = () => {
           }
         })}
       >
-        {errors.title && (
-          <Label className="text-red-500 ">{errors.title.message}</Label>
-        )}
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
+
         <Input placeholder="Enter Issue Title" {...register("title")} />
 
-        {errors.description && (
-          <Label className="text-red-500">{errors.description.message}</Label>
-        )}
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
+
         <Controller
           name="description"
           control={control}
