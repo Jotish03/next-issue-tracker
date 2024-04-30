@@ -14,6 +14,7 @@ import { issueSchema } from "@/components/layout/validation-schema";
 import { z } from "zod";
 import { Label } from "@/components/ui/label";
 import ErrorMessage from "@/components/layout/error-message";
+import Spinner from "@/components/layout/spinner";
 
 type IssueForm = z.infer<typeof issueSchema>;
 
@@ -28,15 +29,18 @@ const NewIssue = () => {
     resolver: zodResolver(issueSchema),
   });
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   return (
     <div className="flex justify-center">
       <form
         className="flex flex-col items-center justify-center gap-2 w-1/2 mt-12"
         onSubmit={handleSubmit(async (data) => {
           try {
+            setSubmitting(true);
             await axios.post("/api/issue", data);
             router.push("/issues");
           } catch (error) {
+            setSubmitting(false);
             setError("Error creating issue request, please check your fields");
           }
         })}
@@ -59,7 +63,9 @@ const NewIssue = () => {
           )}
         />
 
-        <Button className="w-full">Submit Issue</Button>
+        <Button className="w-full gap-2" disabled={submitting}>
+          Submit Issue {submitting && <Spinner />}
+        </Button>
         {error && <ErrorCallout error={error} />}
       </form>
     </div>
