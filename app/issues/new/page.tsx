@@ -9,15 +9,23 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ErrorCallout } from "@/components/layout/alert";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { issueSchema } from "@/components/layout/validation-schema";
+import { z } from "zod";
+import { Label } from "@/components/ui/label";
 
-interface IssueForm {
-  title: string;
-  description: string;
-}
+type IssueForm = z.infer<typeof issueSchema>;
 
 const NewIssue = () => {
   const router = useRouter();
-  const { register, control, handleSubmit } = useForm<IssueForm>();
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IssueForm>({
+    resolver: zodResolver(issueSchema),
+  });
   const [error, setError] = useState("");
   return (
     <div className="flex justify-center">
@@ -32,7 +40,14 @@ const NewIssue = () => {
           }
         })}
       >
+        {errors.title && (
+          <Label className="text-red-500 ">{errors.title.message}</Label>
+        )}
         <Input placeholder="Enter Issue Title" {...register("title")} />
+
+        {errors.description && (
+          <Label className="text-red-500">{errors.description.message}</Label>
+        )}
         <Controller
           name="description"
           control={control}
