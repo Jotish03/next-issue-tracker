@@ -1,7 +1,5 @@
-import { Button } from "@/components/ui/button";
-import prisma from "@/prisma/client";
-import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -11,12 +9,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ShowBadge } from "@/components/ui/badge";
-import Badge from "@/components/layout/badge";
+import { Button } from "@/components/ui/button";
+import { Link } from "lucide-react";
 
-const Issues = async () => {
-  const issues = await prisma.issue.findMany();
-
+const Loading = () => {
+  const issues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   return (
     <div className="flex  justify-center">
       <div className="flex flex-col items-center justify-center md:w-1/2 mt-6">
@@ -35,12 +32,18 @@ const Issues = async () => {
             </TableHeader>
             <TableBody>
               {issues.map((issue) => (
-                <TableRow key={issue.id}>
-                  <TableCell>{issue.title}</TableCell>
+                <TableRow key={issue}>
                   <TableCell>
-                    <Badge status={issue.status} />
+                    {" "}
+                    <Skeleton className="h-4 w-[150px]" />
                   </TableCell>
-                  <TableCell>{issue.created_at.toDateString()}</TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-[100px] rounded-full" />
+                  </TableCell>
+                  <TableCell>
+                    {" "}
+                    <Skeleton className="h-4 w-[150px]" />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -51,4 +54,4 @@ const Issues = async () => {
   );
 };
 
-export default Issues;
+export default Loading;
