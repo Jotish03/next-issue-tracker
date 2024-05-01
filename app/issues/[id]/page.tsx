@@ -3,15 +3,8 @@ import { notFound } from "next/navigation";
 import React from "react";
 import { ObjectId } from "bson";
 import Badge from "@/components/layout/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
+import { Card, CardContent } from "@/components/ui/card";
+import Markdown from "react-markdown";
 interface Props {
   params: { id: string };
 }
@@ -39,8 +32,8 @@ const GetIssueByID = async ({ params }: Props) => {
         <p className="text-zinc-500">{getIssues.created_at.toDateString()}</p>
       </div>
       <Card className="md:w-1/2 p-4">
-        <CardContent>
-          <p>{getIssues.description}</p>
+        <CardContent className="prose">
+          <Markdown>{getIssues.description}</Markdown>
         </CardContent>
       </Card>
     </div>
