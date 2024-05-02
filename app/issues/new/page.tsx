@@ -18,7 +18,7 @@ import Spinner from "@/components/layout/spinner";
 
 type IssueForm = z.infer<typeof issueSchema>;
 
-const NewIssue = () => {
+const NewIssue = async () => {
   const router = useRouter();
   const {
     register,
@@ -30,6 +30,7 @@ const NewIssue = () => {
   });
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
   return (
     <div className="flex justify-center">
       <form

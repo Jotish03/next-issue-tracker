@@ -5,6 +5,7 @@ import { ObjectId } from "bson";
 import Badge from "@/components/layout/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import Markdown from "react-markdown";
+
 interface Props {
   params: { id: string };
 }

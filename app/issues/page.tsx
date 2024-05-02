@@ -37,7 +37,12 @@ const Issues = async () => {
               {issues.map((issue) => (
                 <TableRow key={issue.id}>
                   <TableCell>
-                    <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
+                    <Link
+                      href={`/issues/${issue.id}`}
+                      className="hover:text-zinc-500 transition-colors underline "
+                    >
+                      {issue.title}
+                    </Link>
                   </TableCell>
                   <TableCell>
                     <Badge status={issue.status} />
