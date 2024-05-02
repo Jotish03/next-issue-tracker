@@ -6,8 +6,10 @@ import Badge from "@/components/layout/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import Markdown from "react-markdown";
 import { Button } from "@/components/ui/button";
-import { TbEdit } from "react-icons/tb";
+
 import Link from "next/link";
+import IssueEditButton from "./issue-edit-button";
+import IssueDetails from "./issue-details";
 
 interface Props {
   params: { id: string };
@@ -29,26 +31,12 @@ const GetIssueByID = async ({ params }: Props) => {
   if (!getIssues) notFound();
 
   return (
-    <main className="flex flex-wrap gap-8 md:grid grid-cols-10 items-start justify-center p-12">
-      <div className="grid col-span-9 w-full gap-4 ">
-        <h1 className="text-6xl font-bold text-center">{getIssues.title}</h1>
-        <div className="flex justify-center gap-2">
-          <Badge status={getIssues.status} />
-          <p className="text-zinc-500">{getIssues.created_at.toDateString()}</p>
-        </div>
-        <Card className="md:w-1/2 mx-auto p-4">
-          <CardContent className="prose">
-            <Markdown>{getIssues.description}</Markdown>
-          </CardContent>
-        </Card>
+    <main className="flex flex-wrap gap-8 md:grid grid-cols-12 items-start justify-center p-12">
+      <div className="grid col-span-11 w-full gap-4 ">
+        <IssueDetails getIssues={getIssues} />
       </div>
       <div className="col-span-1">
-        <Link href={`/issues/${getIssues.id}/edit`}>
-          <Button className="gap-2">
-            <TbEdit />
-            Edit
-          </Button>
-        </Link>
+        <IssueEditButton getIssues={getIssues.id} />
       </div>
     </main>
   );
