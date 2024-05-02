@@ -42,7 +42,8 @@ const IssueForm = async ({ issue }: { issue?: Issue }) => {
           onSubmit={handleSubmit(async (data) => {
             try {
               setSubmitting(true);
-              await axios.post("/api/issue", data);
+              if (issue) await axios.patch(`/api/issue/${issue.id}`, data);
+              else await axios.post("/api/issue", data);
               router.push("/issues");
             } catch (error) {
               setSubmitting(false);
@@ -76,7 +77,8 @@ const IssueForm = async ({ issue }: { issue?: Issue }) => {
           />
 
           <Button className="w-full gap-2" disabled={submitting}>
-            Submit Issue {submitting && <Spinner />}
+            {issue ? "Update Issue" : "Submit Issue"}{" "}
+            {submitting && <Spinner />}
           </Button>
           {error && <ErrorCallout error={error} />}
         </form>
