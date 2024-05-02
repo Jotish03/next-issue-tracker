@@ -3,15 +3,11 @@ import { Rubik } from "next/font/google";
 import "./globals.css";
 import PageLayout from "@/components/layout/page-layout";
 import { ThemeProvider } from "@/components/theme-provider";
-import favicon from "@/public/favicon.svg";
 const rubik = Rubik({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Issue Tracker",
   description: "Created by JO.",
-  icons: {
-    icon: favicon,
-  },
 };
 
 export default function RootLayout({
