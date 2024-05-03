@@ -5,7 +5,7 @@ import { TbEdit } from "react-icons/tb";
 const IssueEditButton = ({ getIssues }: { getIssues: string }) => {
   return (
     <Link href={`/issues/${getIssues}/edit`}>
-      <Button className="gap-2">
+      <Button className="gap-2 w-full">
         <TbEdit />
         Edit
       </Button>

@@ -8,6 +8,8 @@ import Markdown from "react-markdown";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { TbEdit } from "react-icons/tb";
+import IssueEditButton from "./issue-edit-button";
+import IssueDeleteButton from "./issue-delete-button";
 
 interface Props {
   params: { id: string };
@@ -29,26 +31,22 @@ const GetIssueByID = async ({ params }: Props) => {
   if (!getIssues) notFound();
 
   return (
-    <main className="flex flex-wrap gap-8 md:grid grid-cols-10 items-start justify-center p-12">
-      <div className="grid col-span-9 w-full gap-4 ">
+    <main className="flex flex-wrap gap-8 md:grid grid-cols-5 items-start justify-center p-12">
+      <div className="grid col-span-4 w-full gap-4 ">
         <h1 className="text-6xl font-bold text-center">{getIssues.title}</h1>
         <div className="flex justify-center gap-2">
           <Badge status={getIssues.status} />
           <p className="text-zinc-500">{getIssues.created_at.toDateString()}</p>
         </div>
-        <Card className="md:w-1/2 mx-auto p-4">
-          <CardContent className="prose">
+        <Card className="md:w-full mx-auto p-4">
+          <CardContent className="prose max-w-full">
             <Markdown>{getIssues.description}</Markdown>
           </CardContent>
         </Card>
       </div>
-      <div className="col-span-1">
-        <Link href={`/issues/${getIssues.id}/edit`}>
-          <Button className="gap-2">
-            <TbEdit />
-            Edit
-          </Button>
-        </Link>
+      <div className="col-span-1 flex flex-col gap-2 w-full ">
+        <IssueEditButton getIssues={getIssues.id} />
+        <IssueDeleteButton getIssues={getIssues.id} />
       </div>
     </main>
   );
