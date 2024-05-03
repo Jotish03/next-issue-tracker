@@ -18,9 +18,7 @@ import { Label } from "@/components/ui/label";
 import ErrorMessage from "@/components/layout/error-message";
 import Spinner from "@/components/layout/spinner";
 import { Issue } from "@prisma/client";
-const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
-  ssr: false,
-});
+import SimpleMDE from "react-simplemde-editor";
 type IssueForm = z.infer<typeof issueSchema>;
 const IssueForm = ({ issue }: { issue?: Issue }) => {
   const router = useRouter();

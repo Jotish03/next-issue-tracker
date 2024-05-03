@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Link } from "lucide-react";
 
-const Loading = () => {
+const LoadingIssue = () => {
   const issues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   return (
     <div className="flex  justify-center">
@@ -54,4 +54,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default LoadingIssue;
