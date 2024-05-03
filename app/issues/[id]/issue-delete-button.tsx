@@ -1,5 +1,6 @@
+"use client";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+
 import React from "react";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import {
@@ -13,16 +14,18 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const IssueDeleteButton = ({ getIssues }: { getIssues: string }) => {
+  const router = useRouter();
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        {" "}
-        <Button className="gap-2 w-full" variant={"destructive"}>
+        <div className="gap-2 w-full flex items-center justify-center bg-red-500 p-2 rounded-md text-white">
           <RiDeleteBin5Line />
-          Delete
-        </Button>
+          <span>Delete</span>
+        </div>
       </AlertDialogTrigger>
       <AlertDialogContent className="w-[350px] rounded-lg lg:w-full">
         <AlertDialogHeader>
@@ -34,8 +37,20 @@ const IssueDeleteButton = ({ getIssues }: { getIssues: string }) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-700">
-            <Link href={`/issues/${getIssues}/delete`}>Delete Issue</Link>
+          <AlertDialogAction>
+            <Button
+              onClick={async () => {
+                try {
+                  await axios.delete(`/api/issue/${getIssues}`);
+                  router.push("/issues");
+                  router.refresh();
+                } catch (error) {
+                  console.error("Error deleting issue:", error);
+                }
+              }}
+            >
+              Delete Issue
+            </Button>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

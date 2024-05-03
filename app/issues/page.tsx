@@ -24,34 +24,38 @@ const Issues = async () => {
           <Link href={"/issues/new"}>New Issue</Link>
         </Button>
         <div className="md:w-full mt-8">
-          <Table>
-            <TableCaption>A list of recent issues posted</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Issue</TableHead>
-                <TableHead className="">Status</TableHead>
-                <TableHead>Created</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {issues.map((issue) => (
-                <TableRow key={issue.id}>
-                  <TableCell>
-                    <Link
-                      href={`/issues/${issue.id}`}
-                      className="hover:text-zinc-500 transition-colors underline "
-                    >
-                      {issue.title}
-                    </Link>
-                  </TableCell>
-                  <TableCell>
-                    <Badge status={issue.status} />
-                  </TableCell>
-                  <TableCell>{issue.created_at.toDateString()}</TableCell>
+          {issues.length === 0 ? (
+            <p className="text-center">No Issue Posted</p>
+          ) : (
+            <Table>
+              <TableCaption>A list of recent issues posted</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Issue</TableHead>
+                  <TableHead className="">Status</TableHead>
+                  <TableHead>Created</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {issues.map((issue) => (
+                  <TableRow key={issue.id}>
+                    <TableCell>
+                      <Link
+                        href={`/issues/${issue.id}`}
+                        className="hover:text-zinc-500 transition-colors underline "
+                      >
+                        {issue.title}
+                      </Link>
+                    </TableCell>
+                    <TableCell>
+                      <Badge status={issue.status} />
+                    </TableCell>
+                    <TableCell>{issue.created_at.toDateString()}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </div>
       </div>
     </div>

@@ -39,7 +39,7 @@ const GetIssueByID = async ({ params }: Props) => {
           <p className="text-zinc-500">{getIssues.created_at.toDateString()}</p>
         </div>
         <Card className="md:w-full mx-auto p-4">
-          <CardContent className="prose max-w-full">
+          <CardContent className="prose dark:prose-invert max-w-full ">
             <Markdown>{getIssues.description}</Markdown>
           </CardContent>
         </Card>
