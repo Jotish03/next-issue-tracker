@@ -22,7 +22,10 @@ const ProfileAvatar = ({ src, fallback, username }: Props) => {
       <DropdownMenuTrigger>
         {" "}
         <Avatar className="w-8 h-8">
-          <AvatarImage src={typeof src === "string" ? src : undefined} />
+          <AvatarImage
+            src={typeof src === "string" ? src : undefined}
+            referrerPolicy="no-referrer"
+          />
           <AvatarFallback>
             {" "}
             {typeof fallback === "string" ? fallback : undefined}
