@@ -1,16 +1,24 @@
 "use client";
 import classNames from "classnames";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { FaBug } from "react-icons/fa";
 import { ModeToggle } from "../layout/dark-mode";
+import { useSession } from "next-auth/react";
+import { Button } from "../ui/button";
+import ProfileAvatar from "./avatar";
+
 const NavHeader = () => {
   const pathname = usePathname();
+  const { status, data: session } = useSession();
+  console.log(session?.user?.image);
+  console.log(status);
   const links = [
     { label: "Dashboard", paths: "/dashboard" },
     { label: "Issues", paths: "/issues" },
   ];
+  const router = useRouter();
   return (
     <nav className="flex items-center justify-around p-4 border-b-2">
       <div>
@@ -34,6 +42,22 @@ const NavHeader = () => {
               <Link href={link.paths}>{link.label}</Link>
             </li>
           ))}
+
+          {status === "authenticated" && (
+            <ProfileAvatar
+              username={session.user?.name}
+              src={session.user?.image}
+              fallback={session.user?.name}
+            />
+          )}
+          {status === "unauthenticated" && (
+            <Button
+              variant={"outline"}
+              onClick={() => router.push("/api/auth/signin")}
+            >
+              Sign In
+            </Button>
+          )}
           <ModeToggle />
         </ul>
       </div>
