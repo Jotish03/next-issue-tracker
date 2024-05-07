@@ -8,21 +8,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import { User } from "@prisma/client";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect, useState } from "react";
 
 const AssigneFilter = () => {
-  const [users, setUser] = useState<User[]>([]);
+  const {
+    data: users,
+    error,
+    isLoading,
+  } = useQuery<User[]>({
+    queryKey: ["users"],
+    queryFn: () => axios.get("/api/users").then((response) => response.data),
+    staleTime: 60 * 1000,
+    retry: 3,
+  });
 
-  useEffect(() => {
-    const fetchedData = async () => {
-      const { data } = await axios.get<User[]>("/api/users");
-      setUser(data);
-    };
-    fetchedData();
-  }, []);
+  if (isLoading) return <Skeleton className="w-full h-10" />;
+  if (error) return null;
+
   return (
     <Select>
       <SelectTrigger className="w-full">
@@ -31,7 +37,7 @@ const AssigneFilter = () => {
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Suggestions</SelectLabel>
-          {users.map((user) => (
+          {users?.map((user) => (
             <SelectItem key={user.id} value={user.id}>
               {user.name}
             </SelectItem>
