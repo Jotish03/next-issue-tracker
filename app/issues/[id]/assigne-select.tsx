@@ -1,12 +1,14 @@
 "use client";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import { User } from "@prisma/client";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -22,18 +24,21 @@ const AssigneFilter = () => {
     fetchedData();
   }, []);
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className="border border-black dark:border-white p-[6px] rounded-md">
-        Select Assigne..
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[250px]">
-        <DropdownMenuLabel>Suggestions</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        {users.map((user) => (
-          <DropdownMenuItem key={user.id}>{user.name}</DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Select>
+      <SelectTrigger className="w-full">
+        <SelectValue placeholder="Select a Assigne.." />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Suggestions</SelectLabel>
+          {users.map((user) => (
+            <SelectItem key={user.id} value={user.id}>
+              {user.name}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   );
 };
 
