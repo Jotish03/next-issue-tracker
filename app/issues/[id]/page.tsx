@@ -12,6 +12,7 @@ import IssueEditButton from "./issue-edit-button";
 import IssueDeleteButton from "./issue-delete-button";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "@/components/auth-provider/auth-options";
+import AssigneFilter from "./assigne-select";
 
 interface Props {
   params: { id: string };
@@ -53,6 +54,7 @@ const GetIssueByID = async ({ params }: Props) => {
 
       {session && (
         <div className="col-span-1 flex flex-col gap-2 w-full ">
+          <AssigneFilter />
           <IssueEditButton getIssues={getIssues.id} />
           <IssueDeleteButton getIssues={getIssues.id} />
         </div>
