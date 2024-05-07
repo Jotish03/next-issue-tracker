@@ -13,16 +13,21 @@ import {
 } from "@/components/ui/table";
 import { ShowBadge } from "@/components/ui/badge";
 import Badge from "@/components/layout/badge";
+import { getServerSession } from "next-auth";
+import { AuthOptions } from "@/components/auth-provider/auth-options";
 
 const Issues = async () => {
+  const session = await getServerSession(AuthOptions);
   const issues = await prisma.issue.findMany();
 
   return (
     <div className="flex  justify-center">
       <div className="flex flex-col items-center justify-center md:w-1/2 mt-6">
-        <Button className="w-full">
-          <Link href={"/issues/new"}>New Issue</Link>
-        </Button>
+        {session && (
+          <Button className="w-full">
+            <Link href={"/issues/new"}>New Issue</Link>
+          </Button>
+        )}
         <div className="md:w-full mt-8">
           {issues.length === 0 ? (
             <p className="text-center">No Issue Posted</p>

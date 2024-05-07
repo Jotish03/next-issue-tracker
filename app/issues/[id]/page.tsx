@@ -10,12 +10,16 @@ import Link from "next/link";
 import { TbEdit } from "react-icons/tb";
 import IssueEditButton from "./issue-edit-button";
 import IssueDeleteButton from "./issue-delete-button";
+import { getServerSession } from "next-auth";
+import { AuthOptions } from "@/components/auth-provider/auth-options";
 
 interface Props {
   params: { id: string };
 }
 
 const GetIssueByID = async ({ params }: Props) => {
+  const session = await getServerSession(AuthOptions);
+
   // Check if the provided id is a valid ObjectId
   if (!ObjectId.isValid(params.id)) {
     // Handle the case where the id is invalid
@@ -29,9 +33,11 @@ const GetIssueByID = async ({ params }: Props) => {
   });
 
   if (!getIssues) notFound();
-
+  const gridCols = session ? "md:grid-cols-5" : "md:grid-cols-1";
   return (
-    <main className="flex flex-wrap gap-8 md:grid grid-cols-5 items-start justify-center p-12">
+    <main
+      className={`flex flex-wrap gap-8 md:grid ${gridCols} items-start justify-center p-12`}
+    >
       <div className="grid col-span-4 w-full gap-4 ">
         <h1 className="text-6xl font-bold text-center">{getIssues.title}</h1>
         <div className="flex justify-center gap-2">
@@ -44,10 +50,13 @@ const GetIssueByID = async ({ params }: Props) => {
           </CardContent>
         </Card>
       </div>
-      <div className="col-span-1 flex flex-col gap-2 w-full ">
-        <IssueEditButton getIssues={getIssues.id} />
-        <IssueDeleteButton getIssues={getIssues.id} />
-      </div>
+
+      {session && (
+        <div className="col-span-1 flex flex-col gap-2 w-full ">
+          <IssueEditButton getIssues={getIssues.id} />
+          <IssueDeleteButton getIssues={getIssues.id} />
+        </div>
+      )}
     </main>
   );
 };

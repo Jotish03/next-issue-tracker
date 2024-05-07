@@ -8,12 +8,12 @@ import { ModeToggle } from "../layout/dark-mode";
 import { useSession } from "next-auth/react";
 import { Button } from "../ui/button";
 import ProfileAvatar from "./avatar";
+import { Skeleton } from "../ui/skeleton";
 
 const NavHeader = () => {
   const pathname = usePathname();
   const { status, data: session } = useSession();
-  console.log(session?.user?.image);
-  console.log(status);
+  if (status === "loading") return <Skeleton className="w-[30px] h-3" />;
   const links = [
     { label: "Dashboard", paths: "/dashboard" },
     { label: "Issues", paths: "/issues" },
