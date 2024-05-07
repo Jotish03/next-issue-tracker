@@ -4,6 +4,7 @@ import "./globals.css";
 import PageLayout from "@/components/layout/page-layout";
 import { ThemeProvider } from "@/components/theme-provider";
 import AuthProvider from "@/components/auth-provider/authprovider";
+import QueryClientProvider from "./QueryClientProvider";
 
 const rubik = Rubik({ subsets: ["latin"] });
 
@@ -20,11 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={rubik.className}>
-        <AuthProvider>
-          <ThemeProvider attribute="class" defaultTheme="system">
-            <PageLayout>{children}</PageLayout>
-          </ThemeProvider>
-        </AuthProvider>
+        <QueryClientProvider>
+          <AuthProvider>
+            <ThemeProvider attribute="class" defaultTheme="system">
+              <PageLayout>{children}</PageLayout>
+            </ThemeProvider>
+          </AuthProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
