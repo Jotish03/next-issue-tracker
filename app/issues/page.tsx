@@ -16,11 +16,22 @@ import Badge from "@/components/layout/badge";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "@/components/auth-provider/auth-options";
 import IssueFilter from "./_component/issue-filter";
-import { Status } from "@prisma/client";
+import { Issue, Status } from "@prisma/client";
+import { ArrowUpIcon } from "lucide-react";
 
 interface searchParamsProps {
-  searchParams: { status: Status };
+  searchParams: {
+    status: Status;
+    orderBy: keyof Issue;
+    order?: "asc" | "desc";
+  };
 }
+
+const columns: { label: string; value: keyof Issue }[] = [
+  { label: "Issue", value: "title" },
+  { label: "Status", value: "status" },
+  { label: "Created", value: "created_at" },
+];
 
 const Issues = async ({ searchParams }: searchParamsProps) => {
   const session = await getServerSession(AuthOptions);
@@ -29,10 +40,18 @@ const Issues = async ({ searchParams }: searchParamsProps) => {
     ? searchParams.status
     : undefined;
 
+  const orderBy = columns
+    .map((column) => column.value)
+    .includes(searchParams.orderBy)
+    ? {
+        [searchParams.orderBy]: searchParams.order ?? "asc", // Use nullish coalescing operator
+      }
+    : undefined;
   const issues = await prisma.issue.findMany({
     where: {
       status,
     },
+    orderBy,
   });
 
   return (
@@ -54,9 +73,33 @@ const Issues = async ({ searchParams }: searchParamsProps) => {
               <TableCaption>A list of recent issues posted</TableCaption>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Issue</TableHead>
-                  <TableHead className="">Status</TableHead>
-                  <TableHead>Created</TableHead>
+                  {columns.map((column) => (
+                    <TableHead key={column.value}>
+                      {" "}
+                      <Link
+                        href={{
+                          query: {
+                            ...searchParams,
+                            orderBy: column.value,
+                            order:
+                              searchParams.orderBy === column.value &&
+                              searchParams.order === "asc"
+                                ? "desc"
+                                : "asc",
+                          },
+                        }}
+                      >
+                        {column.label}{" "}
+                      </Link>
+                      {column.value === searchParams.orderBy && (
+                        <ArrowUpIcon
+                          className={`inline w-5 ${
+                            searchParams.order === "desc" && "rotate-180"
+                          }`}
+                        />
+                      )}
+                    </TableHead>
+                  ))}
                 </TableRow>
               </TableHeader>
               <TableBody>
