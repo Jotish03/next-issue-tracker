@@ -13,12 +13,12 @@ interface Props {
 }
 
 export async function PATCH(request: NextRequest, { params: { id } }: Props) {
-  // const session = await getServerSession(AuthOptions);
+  const session = await getServerSession(AuthOptions);
 
-  // if (!session)
-  //   return NextResponse.json("Not Allowed, Please Try Signing in again", {
-  //     status: 401,
-  //   });
+  if (!session)
+    return NextResponse.json("Not Allowed, Please Try Signing in again", {
+      status: 401,
+    });
   const body = await request.json();
 
   const validation = patchIssueSchema.safeParse(body);

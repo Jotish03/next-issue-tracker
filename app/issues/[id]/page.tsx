@@ -54,7 +54,7 @@ const GetIssueByID = async ({ params }: Props) => {
 
       {session && (
         <div className="col-span-1 flex flex-col gap-2 w-full ">
-          <AssigneFilter />
+          <AssigneFilter issue={getIssues} />
           <IssueEditButton getIssues={getIssues.id} />
           <IssueDeleteButton getIssues={getIssues.id} />
         </div>

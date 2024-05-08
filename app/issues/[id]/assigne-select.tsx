@@ -10,11 +10,11 @@ import {
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { User } from "@prisma/client";
+import { Issue, User } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const AssigneFilter = () => {
+const AssigneFilter = ({ issue }: { issue: Issue }) => {
   const {
     data: users,
     error,
@@ -30,13 +30,21 @@ const AssigneFilter = () => {
   if (error) return null;
 
   return (
-    <Select>
+    <Select
+      defaultValue={issue.assignedToUserId || ""}
+      onValueChange={(userId) => {
+        axios.patch("/api/issue/" + issue.id, {
+          assignedToUserId: userId,
+        });
+      }}
+    >
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Select a Assigne.." />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Suggestions</SelectLabel>
+
           {users?.map((user) => (
             <SelectItem key={user.id} value={user.id}>
               {user.name}
