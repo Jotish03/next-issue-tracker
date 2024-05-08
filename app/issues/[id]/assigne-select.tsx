@@ -9,12 +9,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
 
 import { Issue, User } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const AssigneFilter = ({ issue }: { issue: Issue }) => {
+  const { toast } = useToast();
   const {
     data: users,
     error,
@@ -28,15 +31,24 @@ const AssigneFilter = ({ issue }: { issue: Issue }) => {
 
   if (isLoading) return <Skeleton className="w-full h-10" />;
   if (error) return null;
-
+  const handleValueChange = async (userId: string) => {
+    try {
+      await axios.patch("/api/issue/" + issue.id, {
+        assignedToUserId: userId === "unassign" ? null : userId,
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to update assignee",
+        action: <ToastAction altText="Retry">Retry</ToastAction>,
+      });
+    }
+  };
   return (
     <Select
       defaultValue={issue.assignedToUserId || ""}
-      onValueChange={(userId) => {
-        axios.patch("/api/issue/" + issue.id, {
-          assignedToUserId: userId,
-        });
-      }}
+      onValueChange={handleValueChange}
     >
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Select a Assigne.." />
@@ -44,7 +56,11 @@ const AssigneFilter = ({ issue }: { issue: Issue }) => {
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Suggestions</SelectLabel>
-
+          {issue.assignedToUserId && (
+            <SelectItem value="unassign" className="text-red-400">
+              Unassign User
+            </SelectItem>
+          )}
           {users?.map((user) => (
             <SelectItem key={user.id} value={user.id}>
               {user.name}
