@@ -16,10 +16,24 @@ import Badge from "@/components/layout/badge";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "@/components/auth-provider/auth-options";
 import IssueFilter from "./_component/issue-filter";
+import { Status } from "@prisma/client";
 
-const Issues = async () => {
+interface searchParamsProps {
+  searchParams: { status: Status };
+}
+
+const Issues = async ({ searchParams }: searchParamsProps) => {
   const session = await getServerSession(AuthOptions);
-  const issues = await prisma.issue.findMany();
+  const statuses = Object.values(Status);
+  const status = statuses.includes(searchParams.status)
+    ? searchParams.status
+    : undefined;
+
+  const issues = await prisma.issue.findMany({
+    where: {
+      status,
+    },
+  });
 
   return (
     <div className="flex  justify-center">
