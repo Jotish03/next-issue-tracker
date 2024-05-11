@@ -18,6 +18,7 @@ import { AuthOptions } from "@/components/auth-provider/auth-options";
 import IssueFilter from "./_component/issue-filter";
 import { Issue, Status } from "@prisma/client";
 import { ArrowUpIcon } from "lucide-react";
+import IssuePagination from "@/components/layout/pagination";
 
 interface searchParamsProps {
   searchParams: {
@@ -122,6 +123,9 @@ const Issues = async ({ searchParams }: searchParamsProps) => {
               </TableBody>
             </Table>
           )}
+          <div className="mt-12 items-center">
+            <IssuePagination currentPage={3} pageSize={10} itemCount={100} />;
+          </div>
         </div>
       </div>
     </div>

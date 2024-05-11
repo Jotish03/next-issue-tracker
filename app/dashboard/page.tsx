@@ -1,7 +1,9 @@
+import IssuePagination from "@/components/layout/pagination";
+
 import React from "react";
 
 const Dashboard = () => {
-  return <div>Dashboard</div>;
+  return <main>dash</main>;
 };
 
 export default Dashboard;
