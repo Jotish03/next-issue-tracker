@@ -4,6 +4,7 @@ import React from "react";
 import LatestPost from "./latest-issue";
 import IssueSummary from "./issue-summary";
 import prisma from "@/prisma/client";
+import IssueCharts from "./issue-charts";
 
 const Dashboard = async () => {
   const open = await prisma.issue.count({ where: { status: "OPEN" } });
@@ -15,6 +16,7 @@ const Dashboard = async () => {
     <main className="">
       <LatestPost />
       <IssueSummary open={open} inProgress={inprogress} closed={closed} />
+      <IssueCharts open={open} inProgress={inprogress} closed={closed} />
     </main>
   );
 };
