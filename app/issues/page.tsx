@@ -19,6 +19,7 @@ import IssueFilter from "./_component/issue-filter";
 import { Issue, Status } from "@prisma/client";
 import { ArrowUpIcon } from "lucide-react";
 import IssuePagination from "@/components/layout/pagination";
+import { Metadata } from "next";
 
 interface searchParamsProps {
   searchParams: {
@@ -142,6 +143,11 @@ const Issues = async ({ searchParams }: searchParamsProps) => {
       </div>
     </div>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Issue Tracker - Issues",
+  description: "View all project issues",
 };
 
 export const dynamic = "force-dynamic";

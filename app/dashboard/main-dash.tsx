@@ -1,5 +1,3 @@
-import IssuePagination from "@/components/layout/pagination";
-
 import React from "react";
 import LatestPost from "./latest-issue";
 import IssueSummary from "./issue-summary";

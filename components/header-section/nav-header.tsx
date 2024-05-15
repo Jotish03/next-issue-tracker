@@ -15,13 +15,10 @@ const NavHeader = () => {
   const { status, data: session } = useSession();
   const router = useRouter();
   if (status === "loading") return <Skeleton className="w-[30px] h-3" />;
-  const links = [
-    { label: "Dashboard", paths: "/dashboard" },
-    { label: "Issues", paths: "/issues" },
-  ];
+  const links = [{ label: "Issues", paths: "/issues" }];
 
   return (
-    <nav className="flex items-center justify-around p-4 border-b-2">
+    <nav className="flex items-center justify-between md:justify-around p-4 border-b-2">
       <div>
         <Link href={"/"}>
           {" "}

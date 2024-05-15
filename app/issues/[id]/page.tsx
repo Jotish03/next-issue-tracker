@@ -13,6 +13,7 @@ import IssueDeleteButton from "./issue-delete-button";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "@/components/auth-provider/auth-options";
 import AssigneFilter from "./assigne-select";
+import { title } from "process";
 
 interface Props {
   params: { id: string };
@@ -62,5 +63,13 @@ const GetIssueByID = async ({ params }: Props) => {
     </main>
   );
 };
+
+export async function generateMetadata({ params }: Props) {
+  const meta = await prisma.issue.findUnique({ where: { id: params.id } });
+  return {
+    title: meta?.title,
+    description: meta?.description,
+  };
+}
 
 export default GetIssueByID;
