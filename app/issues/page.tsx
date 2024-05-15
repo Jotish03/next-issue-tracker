@@ -41,6 +41,7 @@ const Issues = async ({ searchParams }: searchParamsProps) => {
   const status = statuses.includes(searchParams.status)
     ? searchParams.status
     : undefined;
+  const where = { status };
 
   const orderBy = columns
     .map((column) => column.value)
@@ -49,12 +50,18 @@ const Issues = async ({ searchParams }: searchParamsProps) => {
         [searchParams.orderBy]: searchParams.order ?? "asc", // Use nullish coalescing operator
       }
     : undefined;
+
+  const page = parseInt(searchParams.page) || 1;
+  const pageSize = 10;
+
   const issues = await prisma.issue.findMany({
-    where: {
-      status,
-    },
+    where,
     orderBy,
+    skip: (page - 1) * pageSize,
+    take: pageSize,
   });
+
+  const issueCount = await prisma.issue.count({ where });
 
   return (
     <div className="flex  justify-center">
@@ -126,11 +133,10 @@ const Issues = async ({ searchParams }: searchParamsProps) => {
           )}
           <div className="mt-12 items-center">
             <IssuePagination
-              currentPage={parseInt(searchParams.page)}
-              pageSize={10}
-              itemCount={100}
+              currentPage={page}
+              pageSize={pageSize}
+              itemCount={issueCount}
             />
-            ;
           </div>
         </div>
       </div>
