@@ -1,6 +1,6 @@
 import prisma from "@/prisma/client";
 import { notFound } from "next/navigation";
-import React from "react";
+import React, { cache } from "react";
 import { ObjectId } from "mongodb";
 import Badge from "@/components/layout/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,6 +18,8 @@ import { title } from "process";
 interface Props {
   params: { id: string };
 }
+// caching
+// const getIssuesId = cache((issueId:string)=> prisma.issue.findUnique({where:{ id: issueId}}))
 
 const GetIssueByID = async ({ params }: Props) => {
   const session = await getServerSession(AuthOptions);
