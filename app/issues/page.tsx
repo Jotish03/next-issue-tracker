@@ -25,6 +25,7 @@ interface searchParamsProps {
     status: Status;
     orderBy: keyof Issue;
     order?: "asc" | "desc";
+    page: string;
   };
 }
 
@@ -124,7 +125,12 @@ const Issues = async ({ searchParams }: searchParamsProps) => {
             </Table>
           )}
           <div className="mt-12 items-center">
-            <IssuePagination currentPage={3} pageSize={10} itemCount={100} />;
+            <IssuePagination
+              currentPage={parseInt(searchParams.page)}
+              pageSize={10}
+              itemCount={100}
+            />
+            ;
           </div>
         </div>
       </div>
