@@ -20,7 +20,7 @@ const IssueSummary = ({ open, inProgress, closed }: Props) => {
   return (
     <div className="flex justify-around gap-2 m-4 flex-wrap ">
       {container.map((issue) => (
-        <Card key={issue.label} className=" p-10 w-full lg:w-[600px]  ">
+        <Card key={issue.label} className=" p-10 w-full lg:w-[300px]  ">
           <div className="flex flex-col items-center justify-center ">
             <Link href={`/issues?status=${issue.status}`}>{issue.label}</Link>
             <Label className="mt-4 font-bold text-4xl">{issue.value}</Label>

@@ -13,11 +13,14 @@ const Dashboard = async () => {
     where: { status: "IN_PROGRESS" },
   });
   return (
-    <main className="">
+    <section className="grid grid-cols-1 md:grid-cols-2 items-center">
+      <div>
+        <IssueCharts open={open} inProgress={inprogress} closed={closed} />
+        <IssueSummary open={open} inProgress={inprogress} closed={closed} />
+      </div>
+
       <LatestPost />
-      <IssueSummary open={open} inProgress={inprogress} closed={closed} />
-      <IssueCharts open={open} inProgress={inprogress} closed={closed} />
-    </main>
+    </section>
   );
 };
 
